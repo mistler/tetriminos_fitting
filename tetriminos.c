@@ -1,7 +1,7 @@
 #include "tetriminos.h"
 
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
 
 struct Tetriminos* tetriminos_init(enum TetriminosType type) {
     struct Tetriminos* t = malloc(sizeof(struct Tetriminos));
