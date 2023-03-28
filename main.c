@@ -2,6 +2,11 @@
 
 #include <stdio.h>
 
+#if 0
+int fillField(struct Field* f) {
+}
+#endif
+
 int main(void) {
     struct Field* f = field_init(7, 12);
     f->show(f);
