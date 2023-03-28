@@ -3,12 +3,12 @@
 #include <stdio.h>
 
 int main(void) {
-    struct Field* f = init(7, 12);
-    show(f);
-    put(f, 0, 0);
-    show(f);
-    put(f, 2, 3);
-    show(f);
-    destroy(f);
+    struct Field* f = field_init(7, 12);
+    f->show(f);
+    f->put(f, 0, 0);
+    f->show(f);
+    f->put(f, 2, 3);
+    f->show(f);
+    field_destroy(f);
     return 0;
 }

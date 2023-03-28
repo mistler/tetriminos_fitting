@@ -4,68 +4,67 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Field {
-    int n, m;
-    int* field;
-};
-
-struct Field* init(int n, int m) {
-    struct Field* f = malloc(sizeof(struct Field));
-    assert(f);
-    f->n = n;
-    f->m = m;
-    f->field = calloc(n * m, sizeof(int));
-    assert(f->field);
-    return f;
-}
-
-void destroy(struct Field* f) {
-    free(f->field);
-    free(f);
-}
-
-int is_empty(const struct Field* f, int x, int y) {
-   if (x < 0 || x >= f->n) {
+static int is_empty(const struct Field* self, int x, int y) {
+   if (x < 0 || x >= self->n) {
        return 0;
    }
-   if (y < 0 || y >= f->m) {
+   if (y < 0 || y >= self->m) {
        return 0;
    }
-   return !f->field[x + y * f->n];
+   return !self->field[x + y * self->n];
 }
 
-void put(struct Field* f, int x, int y) {
-    if (!is_empty(f, x, y)) {
+static void put(struct Field* self, int x, int y) {
+    if (!is_empty(self, x, y)) {
         return;
     }
-    f->field[x + y * f->n] = 1;
+    self->field[x + y * self->n] = 1;
 }
 
-void show(const struct Field* f) {
-    for (int x = 0; x < f->n + 4; ++x) {
+static void show(const struct Field* self) {
+    for (int x = 0; x < self->n + 4; ++x) {
         printf("-");
     }
     printf("\n");
 
-    for (int y = f->m - 1; y >= 0; --y) {
+    for (int y = self->m - 1; y >= 0; --y) {
         printf("%2d|", y);
-        for (int x = 0; x < f->n; ++x) {
-            char out = is_empty(f, x, y) ? '*' : 'X';
+        for (int x = 0; x < self->n; ++x) {
+            char out = is_empty(self, x, y) ? '*' : 'X';
             printf("%c", out);
         }
         printf("|\n");
     }
 
     printf("---");
-    for (int x = 0; x < f->n; ++x) {
+    for (int x = 0; x < self->n; ++x) {
         printf("%d", x);
     }
     printf("-");
     printf("\n");
 
-    for (int x = 0; x < f->n + 4; ++x) {
+    for (int x = 0; x < self->n + 4; ++x) {
         printf("-");
     }
 
     printf("\n");
+}
+
+struct Field* field_init(int n, int m) {
+    struct Field* self = malloc(sizeof(struct Field));
+    assert(self);
+    self->n = n;
+    self->m = m;
+    self->field = calloc(n * m, sizeof(int));
+    assert(self->field);
+
+    self->is_empty = &is_empty;
+    self->put = &put;
+    self->show = &show;
+    return self;
+}
+
+void field_destroy(struct Field* self) {
+    free(self->field);
+    free(self);
 }
