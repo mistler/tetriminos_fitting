@@ -51,6 +51,9 @@ static void show(const struct Field* self) {
 }
 
 struct Field* field_init(int n, int m) {
+    assert(n > 0);
+    assert(m > 0);
+
     struct Field* self = malloc(sizeof(struct Field));
     assert(self);
     self->n = n;
