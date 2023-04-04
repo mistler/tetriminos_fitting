@@ -1,6 +1,8 @@
 #include "field.h"
+#include "tetriminos.h""
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #if 0
 int fillField(struct Field* f) {
@@ -10,10 +12,10 @@ int fillField(struct Field* f) {
 int main(void) {
     struct Field* f = field_init(7, 12);
     f->show(f);
-    f->put(f, 0, 0);
+    struct Tetriminos* ot = newOTetriminos();
+    ot->put(ot, f, 1, 1);
     f->show(f);
-    f->put(f, 2, 3);
-    f->show(f);
+    free(ot);
     field_destroy(f);
     return 0;
 }
