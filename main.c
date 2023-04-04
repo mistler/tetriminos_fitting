@@ -15,6 +15,7 @@ int main(void) {
     struct Tetriminos* ot = newOTetriminos();
     ot->put(ot, f, 1, 1);
     f->show(f);
+    ot->destroy(ot);
     free(ot);
     field_destroy(f);
     return 0;
