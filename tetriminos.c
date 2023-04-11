@@ -19,17 +19,27 @@ int put(struct Tetriminos* t, struct Field* f, int x, int y) {
     printf("put\n");
     int is_empty = 0;
     for (int i = 0; i < 4; ++i) {
-        const int xi = t->coords[i][0];
-        const int yi = t->coords[i][1];
+        const int xi = t->coords[t->currentRotation][i][0];
+        const int yi = t->coords[t->currentRotation][i][1];
         is_empty += f->is_empty(f, x + xi, y + yi);
     }
     if (is_empty != 4) {
         return 0;
     }
     for (int i = 0; i < 4; ++i) {
-        const int xi = t->coords[i][0];
-        const int yi = t->coords[i][1];
+        const int xi = t->coords[t->currentRotation][i][0];
+        const int yi = t->coords[t->currentRotation][i][1];
         f->put(f, x + xi, y + yi);
+    }
+    return 1;
+}
+
+int rotate(struct Tetriminos* t) {
+    printf("rotate\n");
+    t->currentRotation += 1;
+    if (t->currentRotation == t->maxRotation) {
+        t->currentRotation = 0;
+        return 0;
     }
     return 1;
 }
@@ -46,7 +56,7 @@ struct Tetriminos* newTetriminos(void) {
 
     t->derived = NULL;
 
-    t->rotate = NULL;
+    t->rotate = &rotate;
     t->put = &put;
 
     t->destroy = &destroyTetriminos;
@@ -70,11 +80,6 @@ void destroyOT(struct Tetriminos* t) {
     free(base);
 }
 
-int rotateOT(struct Tetriminos* t) {
-    printf("rotateOT\n");
-    return 0;
-}
-
 struct Tetriminos* newOTetriminos(void) {
     printf("newOTetriminos\n");
     struct OTetriminos* t = malloc(sizeof(*t));
@@ -83,7 +88,7 @@ struct Tetriminos* newOTetriminos(void) {
     t->base = newTetriminos();
     ((struct Tetriminos*)t->base)->derived = t;
 
-    t->rotate = &rotateOT;
+    t->rotate = ((struct Tetriminos*)t->base)->rotate;
     t->put = ((struct Tetriminos*)t->base)->put;
 
     t->destroy = &destroyOT;
@@ -91,17 +96,19 @@ struct Tetriminos* newOTetriminos(void) {
     t->isUsed = ((struct Tetriminos*)t->base)->isUsed;
     t->setUsed = ((struct Tetriminos*)t->base)->setUsed;
 
-    t->coords[0][0] = 0;
-    t->coords[0][1] = 0;
+    t->coords[0][0][0] = 0;
+    t->coords[0][0][1] = 0;
 
-    t->coords[1][0] = 0;
-    t->coords[1][1] = 1;
+    t->coords[0][1][0] = 0;
+    t->coords[0][1][1] = 1;
 
-    t->coords[2][0] = 1;
-    t->coords[2][1] = 0;
+    t->coords[0][2][0] = 1;
+    t->coords[0][2][1] = 0;
 
-    t->coords[3][0] = 1;
-    t->coords[3][1] = 1;
+    t->coords[0][3][0] = 1;
+    t->coords[0][3][1] = 1;
+
+    t->maxRotation = 1;
 
     return (struct Tetriminos*)t;
 };

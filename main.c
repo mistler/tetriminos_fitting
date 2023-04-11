@@ -14,6 +14,9 @@ int main(void) {
     f->show(f);
     struct Tetriminos* ot = newOTetriminos();
     ot->put(ot, f, 1, 1);
+    printf("rot: %d\n", ot->rotate(ot));
+    printf("rot: %d\n", ot->rotate(ot));
+    ot->put(ot, f, 4, 4);
     f->show(f);
     ot->destroy(ot);
     free(ot);
