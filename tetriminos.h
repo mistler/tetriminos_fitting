@@ -20,6 +20,8 @@ void setUsedTetriminos(struct Tetriminos* t, int val);
 struct Tetriminos {
     void* derived;
 
+    int coords[4][2];
+
     int (*rotate)(struct Tetriminos*);
     int (*put)(struct Tetriminos*, struct Field* f, int x, int y);
 
@@ -32,14 +34,10 @@ struct Tetriminos {
     int isUsedVal;
 };
 
-struct Tetriminos* newOTetriminos(void);
-void destroyOT(struct Tetriminos* t);
-
-int rotateOT(struct Tetriminos*);
-int putOT(struct Tetriminos* t, struct Field* f, int x, int y);
-
 struct OTetriminos {
     void* base;
+
+    int coords[4][2];
 
     int (*rotate)(struct Tetriminos*);
     int (*put)(struct Tetriminos*, struct Field* f, int x, int y);
@@ -54,4 +52,3 @@ struct Tetriminos* newOTetriminos(void);
 void destroyOT(struct Tetriminos* t);
 
 int rotateOT(struct Tetriminos*);
-int putOT(struct Tetriminos* t, struct Field* f, int x, int y);
