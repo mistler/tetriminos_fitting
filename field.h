@@ -4,7 +4,7 @@
 
 struct Field{
     int (*is_empty)(const struct Field*, int x, int y);
-    void (*put)(struct Field*, int x, int y);
+    void (*put)(struct Field*, int x, int y, int value);
 
     void (*show)(const struct Field*);
 

@@ -14,11 +14,13 @@ static int is_empty(const struct Field* self, int x, int y) {
    return !self->field[x + y * self->n];
 }
 
-static void put(struct Field* self, int x, int y) {
-    if (!is_empty(self, x, y)) {
-        return;
+static void put(struct Field* self, int x, int y, int value) {
+    if (value) {
+        if (!is_empty(self, x, y)) {
+            return;
+        }
     }
-    self->field[x + y * self->n] = 1;
+    self->field[x + y * self->n] = value;
 }
 
 static void show(const struct Field* self) {
@@ -30,7 +32,7 @@ static void show(const struct Field* self) {
     for (int y = self->m - 1; y >= 0; --y) {
         printf("%2d|", y);
         for (int x = 0; x < self->n; ++x) {
-            char out = is_empty(self, x, y) ? '*' : 'X';
+            char out = is_empty(self, x, y) ? '*' : self->field[x + y * self->n];
             printf("%c", out);
         }
         printf("|\n");

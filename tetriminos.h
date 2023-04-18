@@ -29,7 +29,7 @@ struct Tetriminos {
     int currentRotation;
 
     int (*rotate)(struct Tetriminos*);
-    int (*put)(struct Tetriminos*, struct Field* f, int x, int y);
+    int (*put)(struct Tetriminos*, struct Field* f, int x, int y, int value);
 
     void (*destroy)(struct Tetriminos*);
 
@@ -44,5 +44,5 @@ void destroyTetriminos(struct Tetriminos* t);
 int isUsedTetriminos(struct Tetriminos* t);
 void setUsedTetriminos(struct Tetriminos* t, int val);
 
-int put(struct Tetriminos* t, struct Field* f, int x, int y);
+int put(struct Tetriminos* t, struct Field* f, int x, int y, int value);
 int rotate(struct Tetriminos* t);

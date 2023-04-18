@@ -6,7 +6,7 @@ struct LTetriminos {
     int currentRotation;
 
     int (*rotate)(struct Tetriminos*);
-    int (*put)(struct Tetriminos*, struct Field* f, int x, int y);
+    int (*put)(struct Tetriminos*, struct Field* f, int x, int y, int value);
 
     void (*destroy)(struct Tetriminos*);
 
